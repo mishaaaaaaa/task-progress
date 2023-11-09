@@ -86,15 +86,21 @@ const App = () => {
           />
         </div>
         <div className="task-container">
-          {tasksList.map((task: any) => (
-            <TaskCard
-              task={task}
-              key={task?.id}
-              handleShowAddEditModal={handleShowAddEditModal}
-              handleShowDeleteModal={handleShowDeleteModal}
-              handleTaskAction={handleTaskAction}
-            />
-          ))}
+          {tasksList.length > 0 ? (
+            tasksList.map((task: any) => (
+              <TaskCard
+                task={task}
+                key={task?.id}
+                handleShowAddEditModal={handleShowAddEditModal}
+                handleShowDeleteModal={handleShowDeleteModal}
+                handleTaskAction={handleTaskAction}
+              />
+            ))
+          ) : (
+            <div className="noOutputData">
+              <span>Task list is empty</span>
+            </div>
+          )}
         </div>
       </div>
       {showAddEditModal && (
