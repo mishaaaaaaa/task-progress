@@ -15,10 +15,11 @@ const App = () => {
   const [currentTask, setCurrentTask] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { get } = useFetch("*somebaseUrl*");
+  const listLengthRef = useRef(null as any);
 
   useEffect(() => {
     setTasksList(taskList as any);
-
+    listLengthRef.current = taskList.length;
     // ---------- so here i created simple custom fetch to get data from server;
     // ---------- it would fetch it and set to local state;
     // ---------- but due to lack of information in documentation regarding work with API i can`t fully implement functionality
@@ -32,16 +33,16 @@ const App = () => {
     switch (action.type) {
       case "CREATE": {
         setTasksList((prevState: any) => [
-          { ...task, id: idGenerator(prevState.length + 1) },
+          { ...task, id: idGenerator(listLengthRef.current + 1) },
           ...prevState,
         ]);
-
+        listLengthRef.current += 1;
         break;
       }
       case "UPDATE": {
         setTasksList((prevState: any) =>
           prevState.map((taskItem: any) =>
-            taskItem.id === task.id ? task : taskItem
+            parseInt(taskItem.id) === parseInt(task.id) ? task : taskItem
           )
         );
         break;
